@@ -11,8 +11,12 @@ class Image extends Model
     protected $fillable = [];
 
     //
-    static function getMagicRelationship($model, $ref_name){
+    static function getMagicRelationship($model, $ref_name, $params = array()){
+
+        //
         $type = get_class($model) . '::' . $ref_name;
+
+        //
         return  $model->hasOne(get_class(), 'ref_id')
                     ->where('ref_type', $type);
     }

@@ -11,8 +11,11 @@ class Galery extends Model
     protected $fillable = [];
 
     //
-    static function getMagicRelationship($model, $ref_name){
+    static function getMagicRelationship($model, $ref_name, $params = array()){
+        //
         $type = get_class($model) . '::' . $ref_name;
+
+        //
         return  $model->hasMany(get_class(), 'ref_id')
                     ->where('ref_type', $type)
                     ->orderBy('position', 'ASC');

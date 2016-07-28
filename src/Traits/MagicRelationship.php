@@ -8,13 +8,9 @@ trait MagicRelationship
 {
     //
     private $tmp_config = [
-
-        // hasOne
-        'imagem' => 'Magic\Models\Image',
-        'imagem2' => 'Magic\Models\Image',
-
-        // hasMany
-        'galeria' => 'Magic\Models\Galery',
+        'imagem' => ['model' => 'Magic\Models\Image'],
+        'galeria' => ['model' => 'Magic\Models\Galery'],
+        'modelo' => ['model' => 'Magic\Models\Category', 'key' => 'modelo_id'],
     ];
 
     //
@@ -30,14 +26,14 @@ trait MagicRelationship
     //
     public function __get($key)
     {
-        $magic_model = $this->getMagicModelFromName($key);
-        if($magic_model !== false){
+        $magic = $this->getMagicModelFromName($key);
+        if($magic !== false){
 
             if ($this->relationLoaded($key)) {
                 return $this->relations[$key];
             }
 
-            $relations = $magic_model::getMagicRelationship($this, $key);
+            $relations = $magic['model']::getMagicRelationship($this, $key, $magic);
             return $this->relations[$key] = $relations->getResults();
         }
 
@@ -48,11 +44,11 @@ trait MagicRelationship
     public function __call($method, $parameters)
     {
 
-        $magic_model = $this->getMagicModelFromName($method);
-        if($magic_model !== false){
+        $magic = $this->getMagicModelFromName($method);
+        if($magic !== false){
 
             //
-            return $magic_model::getMagicRelationship($this, $method);
+            return $magic['model']::getMagicRelationship($this, $method, $magic);
         }
 
         return parent::__call($method, $parameters);
