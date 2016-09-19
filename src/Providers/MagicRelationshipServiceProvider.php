@@ -25,6 +25,9 @@ class MagicRelationshipServiceProvider extends ServiceProvider
     {
         //
         \View::addNamespace('Magic', __DIR__ . '/../../views');
+
+        // Console commands
+        $this->commands('Magic\Console\Commands\ListAll');
     }
 
     //

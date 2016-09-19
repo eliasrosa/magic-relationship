@@ -5,7 +5,7 @@ namespace Magic\Models;
 use Magic\Traits\MagicRelationship;
 use Illuminate\Database\Eloquent\Model;
 
-class Image extends Model
+class ImageGroup extends Model
 {
     // Trait
     use MagicRelationship;
@@ -18,8 +18,9 @@ class Image extends Model
     static function getMagicRelationship($model, $magic = array()){
 
         //
-        return  $model->hasOne(get_class(), 'ref_id')
-                      ->where('magic_id', $magic['id']);
+        return  $model->hasMany(get_class(), 'ref_id')
+                      ->where('magic_id', $magic['id'])
+                      ->orderBy('position');
     }
 
     //
