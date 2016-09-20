@@ -31,6 +31,15 @@ class CreateMagicTables extends Migration
             $table->timestamps();
         });
 
+        Schema::create('magic_listings_rel', function (Blueprint $table) {
+            $table->integer('list_id');
+            $table->integer('listable_id');
+            $table->string('listable_type');
+
+            //
+            $table->primary(['list_id', 'listable_id', 'listable_type']);
+        });
+
         Schema::create('magic_tags', function (Blueprint $table) {
             $table->increments('id');
             $table->string('magic_id', 32);
@@ -47,7 +56,6 @@ class CreateMagicTables extends Migration
             //
             $table->primary(['tag_id', 'taggable_id', 'taggable_type']);
         });
-
     }
 
     /**
@@ -59,6 +67,7 @@ class CreateMagicTables extends Migration
     {
         Schema::drop('magic_images');
         Schema::drop('magic_listings');
+        Schema::drop('magic_listings_rel');
         Schema::drop('magic_tags');
         Schema::drop('magic_tags_rel');
     }

@@ -21,7 +21,8 @@ class Tag extends Model
         return $model->morphToMany(get_class(), 'taggable', 'magic_tags_rel');
     }
 
-    //
+    // IMPORTANTE
+    // O comando \Magic\Models\Tag::with('ref') não está funcionando
     public function ref()
     {
         $config = config('magic.relationships', collect())

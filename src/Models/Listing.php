@@ -2,9 +2,6 @@
 
 namespace Magic\Models;
 
-use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
-
 use Magic\Traits\MagicRelationship;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,24 +17,28 @@ class Listing extends Model
     //
     static function getMagicRelationship($model, $magic = array()){
 
-        //
-        $local_key = isset($magic['local_key']) ? $magic['local_key'] : $magic['name'] . '_id';
+        $related = get_class();
+        $instance = new $related;
 
-        //
-        return  $model->hasOne(get_class(), 'id', $local_key);
+        return new \Magic\Relations\MorphOneToMany(
+            $instance->newQuery(), $model, 'listable', 'magic_listings_rel',
+            'listable_id', 'list_id', 'ref', false
+        );
     }
 
-    //
+    // IMPORTANTE
+    // O comando \Magic\Models\Listing::with('ref') não está funcionando
     public function ref()
     {
-        $magic = config('magic.relationships', collect())
+        $config = config('magic.relationships', collect())
                     ->where('id', $this->magic_id)
                     ->first();
 
-        //
-        $foreign_key = isset($magic['local_key']) ? $magic['local_key'] : $magic['name'] . '_id';
-
-        //
-        return $this->hasMany($magic['model'], $foreign_key, 'id');
+        $instance = new $config['model'];
+        return new \Magic\Relations\MorphOneToMany(
+            $instance->newQuery(), $this, 'listable', 'magic_listings_rel',
+            'list_id', 'listable_id', 'ref', true
+        );
     }
+
 }
