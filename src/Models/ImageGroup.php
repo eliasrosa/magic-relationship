@@ -26,9 +26,7 @@ class ImageGroup extends Model
     //
     public function ref()
     {
-        $magic = config('magic.relationships', collect())
-                    ->where('id', $this->magic_id)
-                    ->first();
+        $magic = \MagicRelationships::get($this->magic_id)->first();
 
         return $this->belongsTo($magic['model']);
     }

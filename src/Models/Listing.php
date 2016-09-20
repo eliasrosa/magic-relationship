@@ -30,11 +30,9 @@ class Listing extends Model
     // O comando \Magic\Models\Listing::with('ref') não está funcionando
     public function ref()
     {
-        $config = config('magic.relationships', collect())
-                    ->where('id', $this->magic_id)
-                    ->first();
+        $magic = \MagicRelationships::get($this->magic_id)->first();
 
-        $instance = new $config['model'];
+        $instance = new $magic['model'];
         return new \Magic\Relations\MorphOneToMany(
             $instance->newQuery(), $this, 'listable', 'magic_listings_rel',
             'list_id', 'listable_id', 'ref', true

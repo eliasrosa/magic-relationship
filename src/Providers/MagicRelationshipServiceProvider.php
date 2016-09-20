@@ -2,6 +2,7 @@
 
 namespace Magic\Providers;
 
+use Magic\MagicRelationships;
 use Illuminate\Routing\Router;
 use BW\Router\Router as BwRouter;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -23,11 +24,20 @@ class MagicRelationshipServiceProvider extends ServiceProvider
     //
     public function register()
     {
-        //
-        \View::addNamespace('Magic', __DIR__ . '/../../views');
+        // Register facade
+        $this->app->bind('magic-relationships', function($app) {
+            return new MagicRelationships();
+        });
 
-        // Console commands
+        // Register alias
+        $loader = \Illuminate\Foundation\AliasLoader::getInstance();
+        $loader->alias('MagicRelationships', 'Magic\Support\Facades\MagicRelationships');
+
+        // Register console command
         $this->commands('Magic\Console\Commands\ListAll');
+
+        // Register view folder
+        \View::addNamespace('Magic', __DIR__ . '/../../views');
     }
 
     //

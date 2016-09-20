@@ -19,11 +19,7 @@ class ListAll extends Command
         //
         $data = [];
         $id = $this->option('id');
-        $results = config('magic.relationships', collect());
-
-        if(!is_null($id)){
-            $results = $results->where('id', $id);
-        }
+        $results = \MagicRelationships::get($id);
 
         foreach ($results as $i) {
             $properties  = "ID: {$i['id']}\n";

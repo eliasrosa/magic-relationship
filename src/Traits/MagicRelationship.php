@@ -9,7 +9,7 @@ trait MagicRelationship
     //
     private function getMagicModelFromName($key)
     {
-        $relationship = config('magic.relationships', collect())
+        $relationship = \MagicRelationships::get()
             ->where('model', get_class())
             ->where('name', $key)
             ->first();

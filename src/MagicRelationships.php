@@ -4,7 +4,7 @@ namespace Magic;
 
 use \Magic\Models\Relationship;
 
-class MagicRelationship {
+class MagicRelationships {
 
     //
     private $data;
@@ -16,32 +16,13 @@ class MagicRelationship {
     }
 
     //
-    static public function register($config_key)
-    {
-        return (new static())->loadConfig($config_key);
-    }
-
-    //
-    public function loadConfig($config_key)
+    public function register($config_key)
     {
         //
         $config = config($config_key, []);
         foreach ($config as $model => $relationships) {
            $this->createCollect($model, null, $relationships);
         }
-
-        //
-        $this->storeData();
-    }
-
-    //
-    private function storeData()
-    {
-        $relationships = config('magic.relationships', collect());
-        $merged = $relationships->merge($this->data);
-
-        //
-        \Config::set('magic.relationships', $merged);
     }
 
     //
@@ -95,5 +76,15 @@ class MagicRelationship {
         }else{
             return 'Magic\Models\\' . $type;
         }
+    }
+
+    //
+    public function get($filter_id = null)
+    {
+        if($filter_id){
+            return $this->data->where('id', $filter_id);
+        }
+
+        return $this->data;
     }
 }
