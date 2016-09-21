@@ -1,0 +1,24 @@
+
+{
+    "name": "eliasrosa/bw-magic-relationships",
+    "description": "Package para criar relacionamentos ágeis, desenvolvido para BW for laravel 5.1",
+    "keywords": ["bw", "laravel", "baseweb",  "back-end", "eliasrosa", "magic-relationships", "relationships"],
+    "homepage": "https://github.com/eliasrosa/magic-relationship",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Elias da Rosa",
+            "email": "elias@eliasdarosa.com.br",
+            "homepage": "http://www.eliasdarosa.com.br/"
+        }
+    ],
+    "require": {
+
+    },
+    "autoload": {
+        "psr-4": {
+            "Magic\\": "src/"
+        }
+    }
+}
+
